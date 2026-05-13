@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>✦ HTML превьюер | тёмная материя</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f14;
+            background-image: radial-gradient(circle at 25% 0%, rgba(70, 50, 90, 0.25) 0%, transparent 45%),
+                              radial-gradient(circle at 75% 100%, rgba(30, 40, 70, 0.3) 0%, transparent 50%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #e0d9f0;
+            transition: background 0.3s ease;
+        }
+
+        /* тёмный элегантный хедер */
+        .app-header {
+            background: rgba(18, 16, 24, 0.8);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(120, 100, 160, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-weight: 500;
+            font-size: 1.4rem;
+            letter-spacing: -0.3px;
+            color: #cfc2e6;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #b7a1d8;
+            filter: drop-shadow(0 0 12px #7f6aaa80);
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: rgba(30, 25, 42, 0.7);
+            border: 1px solid #3a3350;
+            padding: 0.6rem 1.4rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #d4c9f0;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.25s;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            letter-spacing: 0.2px;
+        }
+
+        .btn i {
+            font-size: 1rem;
+            color: #b7a1d8;
+        }
+
+        .btn:hover {
+            background: #2b2338;
+            border-color: #8b7ab5;
+            box-shadow: 0 14px 24px rgba(100, 70, 150, 0.25);
+            transform: translateY(-1px);
+            color: #f0e9ff;
+        }
+
+        .btn-primary {
+            background: #4a3b6b;
+            border-color: #7b68a8;
+            color: #f2ecff;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(120, 90, 180, 0.35);
+        }
+
+        .btn-primary i {
+            color: #e0d4ff;
+        }
+
+        .btn-primary:hover {
+            background: #5d4b82;
+            border-color: #9b8ac4;
+            box-shadow: 0 16px 28px rgba(140, 100, 210, 0.4);
+        }
+
+        .divider {
+            width: 1px;
+            height: 28px;
+            background: #3d3555;
+            margin: 0 0.3rem;
+        }
+
+        /* основная область: теперь только редактор */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            padding: 1.2rem 1.5rem 1.5rem;
+            gap: 1.5rem;
+        }
+
+        .editor-panel {
+            flex: 1;
+            background: rgba(20, 17, 28, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(90, 75, 130, 0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1rem 1.8rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #b9acd4;
+            border-bottom: 1px solid #2f2842;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(25, 21, 35, 0.6);
+        }
+
+        .panel-header i {
+            font-size: 0.9rem;
+            color: #aa98d0;
+        }
+
+        textarea {
+            width: 100%;
+            flex: 1;
+            background: transparent;
+            border: none;
+            resize: none;
+            padding: 1.5rem 1.8rem;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e7defa;
+            background: #13101c;
+            outline: none;
+            caret-color: #c4b0f0;
+        }
+
+        textarea::placeholder {
+            color: #5b4f72;
+            font-style: italic;
+        }
+
+        /* адаптивность */
+        @media (max-width: 700px) {
+            .main-container {
+                padding: 0.8rem;
+            }
+            .app-header {
+                padding: 0.8rem 1.2rem;
+            }
+            .logo span {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* кастомный скроллбар в тёмном стиле */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #1e192b;
+            border-radius: 10px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #4b3d66;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo">
+            <i class="fas fa-moon"></i>
+            <span>HTML·мрак</span>
+        </div>
+        <div class="controls">
+            <button class="btn" id="clearBtn" title="Очистить редактор">
+                <i class="far fa-trash-alt"></i> <span>Очистить</span>
+            </button>
+            <div class="divider"></div>
+            <button class="btn btn-primary" id="openTabBtn">
+                <i class="fas fa-external-link-alt"></i> <span>Открыть в новой вкладке</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <i class="fas fa-code"></i> HTML редактор
+            </div>
+            <textarea id="htmlCode" placeholder="Введите ваш HTML код здесь..." spellcheck="false"></textarea>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const htmlTextarea = document.getElementById('htmlCode');
+            const openTabBtn = document.getElementById('openTabBtn');
+            const clearBtn = document.getElementById('clearBtn');
+
+            // Функция открытия HTML в новой вкладке
+            function openInNewTab() {
+                const code = htmlTextarea.value.trim();
+                
+                if (!code) {
+                    alert('Пожалуйста, введите HTML код перед открытием.');
+                    return;
+                }
+
+                // Создаём Blob с HTML содержимым
+                const blob = new Blob([code], { type: 'text/html' });
+                // Создаём объектный URL
+                const blobUrl = URL.createObjectURL(blob);
+                
+                // Открываем в новой вкладке
+                const newTab = window.open(blobUrl, '_blank');
+                
+                // Если всплывающее окно заблокировано
+                if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+                    alert('Не удалось открыть новую вкладку. Возможно, блокировщик всплывающих окон запретил открытие.');
+                }
+                
+                // Опционально освобождаем URL через некоторое время (но не сразу, чтобы вкладка успела загрузить)
+                setTimeout(() => {
+                    URL.revokeObjectURL(blobUrl);
+                }, 3000);
+            }
+
+            // Обработчик кнопки "Открыть в новой вкладке"
+            openTabBtn.addEventListener('click', openInNewTab);
+
+            // Очистка редактора
+            clearBtn.addEventListener('click', () => {
+                htmlTextarea.value = '';
+            });
+
+            // Горячие клавиши: Ctrl+Enter для открытия в новой вкладке
+            htmlTextarea.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    openInNewTab();
+                }
+            });
+
+            // Небольшая подсказка в консоли
+            console.log('🌙 Тёмный HTML превьюер. Ctrl+Enter — открыть в новой вкладке.');
+        })();
+    </script>
+</body>
+</html>
